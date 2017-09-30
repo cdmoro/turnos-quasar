@@ -22,7 +22,11 @@ export default new VueRouter({
    */
 
   routes: [
-    { path: '/', component: load('Hello') },
+    { path: '/', component: load('Home') },
+    { path: '/maquillaje', component: load('Maquillaje') },
+    { path: '/peluqueria', component: load('Peluqueria') },
+    { path: '/manos', component: load('Manos') },
+    { path: '/pies', component: load('Pies') },
 
     // Always leave this last one
     { path: '*', component: load('Error404') } // Not found
