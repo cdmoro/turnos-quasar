@@ -2,7 +2,7 @@
   <section>
     <q-list highlight inset-separator link>
       <template v-for="(turno, i) in turnos">
-        <q-item>
+        <q-item :key="i">
           <q-item-side>
             <q-icon name="account_circle" size="2rem" :color="getColor()"/>
           </q-item-side>
@@ -10,12 +10,9 @@
             <q-item-tile label>{{turno.name}}</q-item-tile>
             <q-item-tile sublabel lines="1">{{turno.address}}</q-item-tile>
             <q-item-tile sublabel>
-              <q-icon name="star" color="warning"/>
-              <q-icon name="star" color="warning"/>
-              <q-icon name="star" color="warning"/>
-              <q-icon name="star" />
-              <q-icon name="star" />
-              <small>3.5/5</small>
+              <!-- <q-icon name="star" color="warning"/> -->
+              <q-rating readonly color="warning" v-model="turno.index" :max="5" />
+              <small>{{turno.index}}/5</small>
             </q-item-tile>
           </q-item-main>
           <q-item-side right>
@@ -37,18 +34,21 @@
         </q-item>
         <!-- <q-item-separator /> -->
       </template>
+      <q-inner-loading :visible="turnos.length == 0">
+        <q-spinner-dots color="pink" size="56px"></q-spinner-dots>
+        <p class="text-tertiary">Cargando profesionales...</p>
+      </q-inner-loading>
     </q-list>
   </section>
 </template>
 
 <script>
 import db from '@/datasource.js'
-import {Dialog, QIcon, QList, QItem, QItemSeparator, QItemSide, QItemMain, QItemTile, QPopover} from 'quasar'
+import {Dialog, QIcon, QList, QItem, QItemSeparator, QItemSide, QItemMain, QItemTile, QPopover, QRating, QInnerLoading, QSpinnerDots} from 'quasar'
 export default {
-  components: {QIcon, QList, QItem, QItemSeparator, QItemSide, QItemMain, QItemTile, QPopover},
+  components: {QIcon, QList, QItem, QItemSeparator, QItemSide, QItemMain, QItemTile, QPopover, QRating, QInnerLoading, QSpinnerDots},
   data () {
     return {
-      // turnos: {}
       colores: ['red', 'pink', 'purple', 'deep-purple', 'indigo', 'blue', 'light-blue', 'cyan', 'teal', 'green', 'light-green', 'lime', 'amber', 'orange', 'deep-orange', 'brown', 'grey', 'blue-grey'],
       dialogConfirm: {
         label: 'Confirmar turno',

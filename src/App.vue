@@ -17,6 +17,9 @@
         Turnos
         <!-- <div slot="subtitle">Running on Quasar v{{$q.version}}</div> -->
       </q-toolbar-title>
+      <!-- <q-btn flat>
+        <q-icon name="search" />
+      </q-btn> -->
        <q-btn ref="target" flat>
         <q-icon name="more_vert" />
           <q-popover ref="popover_header" anchor="bottom right" self="top right">
@@ -93,6 +96,7 @@ import {
   QItemSide,
   QItemMain,
   QPopover,
+  QSearch,
   AddressbarColor
 } from 'quasar'
 
@@ -132,6 +136,7 @@ export default {
     QItem,
     QItemSide,
     QItemMain,
+    QSearch,
     QPopover
   },
   data () {
