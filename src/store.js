@@ -7,12 +7,25 @@ Vue.use(Vuex)
 const store = new Vuex.Store({
     state: {
         title: 'Tu look!',
-        userLogged: false
+        userLogged: false,
+        user: {}
     },
     actions: {
+        login(context) {
+            context.commit('login')
+        },
+        userData(context) {
+            context.commit('userData')
+        }
     },
 
     mutations: {
+        login(state) {
+            state.userLogged = true
+        },
+        userData(state) {
+            state.user = firebase.auth().currentUser
+        }
     },
 
     getters: {

@@ -30,6 +30,11 @@ import 'quasar-extras/ionicons'
 import 'quasar-extras/fontawesome'
 // import 'quasar-extras/animate'
 
+// router.beforeEach((to, from, next) => {
+//   if (store.state.userLogged) next()
+//   else next('/login')
+// })
+
 Quasar.start(() => {
   /* eslint-disable no-new */
   new Vue({

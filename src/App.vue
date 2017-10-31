@@ -4,8 +4,8 @@
     view="lHh Lpr fFf"
     :left-class="{'bg-grey-2': true}"
     :reveal="true"
-    :page-class="{'row justify-center items-center bg-pink-4': userLogged}">
-    <q-toolbar slot="header" color="pink" v-if="!userLogged">
+    :page-class="{'row justify-center items-center bg-pink-4': !userLogged}">
+    <q-toolbar slot="header" color="pink" v-if="userLogged">
       <q-btn
         flat
         @click="$refs.layout.toggleLeft()">
@@ -45,14 +45,14 @@
       <q-tab slot="title" name="tab-4" label="Pies" />
     </q-tabs> -->
 
-    <div slot="left" v-if="!userLogged">
+    <div slot="left" v-if="userLogged">
       <!--
         Use <q-side-link> component
         instead of <q-item> for
         internal vue-router navigation
       -->
       <div id="user-panel">
-        Registrate o inicia sesión
+        {{ user }}
       </div>
       <q-list no-border link inset-delimiter>
         <!-- <q-list-header>Menú</q-list-header> -->
@@ -80,6 +80,8 @@
 </template>
 
 <script>
+import { mapState } from 'vuex'
+
 import {
   openURL,
   QLayout,
@@ -125,20 +127,16 @@ export default {
   },
   data () {
     return {
-      orienting: window.DeviceOrientationEvent && !this.$q.platform.is.desktop,
-      rotating: window.DeviceMotionEvent && !this.$q.platform.is.desktop,
-      moveX: 0,
-      moveY: 0,
-      rotateY: 0,
-      rotateX: 0
+      // usuario: firebase.auth().currentUser
     }
   },
+  beforeMount () {
+    if (!this.userLogged) this.$router.push('/login')
+  },
   computed: {
+    ...mapState(['title', 'userLogged', 'user']),
     userLogged () {
       return this.$store.state.userLogged
-    },
-    title () {
-      return this.$store.state.title
     }
   },
   methods: {

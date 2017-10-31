@@ -22,7 +22,9 @@ export default new VueRouter({
    */
 
   routes: [
-    { path: '/', component: load('Login') },
+    { path: '/login', component: load('Login') },
+    { path: '/singup', component: load('SingUp') },
+    { path: '/', component: load('Home') },
     { path: '/home', component: load('Home') },
     { path: '/maquillaje', component: load('Maquillaje') },
     { path: '/peluqueria', component: load('Peluqueria') },
