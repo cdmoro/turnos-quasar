@@ -19,7 +19,7 @@
       <q-btn flat>
         <q-icon name="tune" />
       </q-btn>
-      <q-btn flat>
+      <q-btn flat @click="toggleFilterList()">
         <q-icon name="search" />
       </q-btn>
        <!-- <q-btn ref="target" flat>
@@ -151,6 +151,9 @@ export default {
   methods: {
     launch (url) {
       openURL(url)
+    },
+    toggleFilterList () {
+      this.$store.dispatch('toggleFilterList')
     }
   }
 }

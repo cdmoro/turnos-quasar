@@ -1,13 +1,15 @@
 <template>
   <section>
-    <q-toolbar slot="header" color="pink" style="position: sticky; top: 0px; z-index: 200">
-      sdfdf
-    </q-toolbar>
+    <q-slide-transition>
+      <q-toolbar slot="header" color="pink" style="position: sticky; top: 0; z-index: 200" v-show="filterList">
+        <q-search placeholder="Buscar..." inverted color="pink" flat v-model="filter" style="box-shadow: none"/>
+      </q-toolbar>
+    </q-slide-transition>
     <q-list highlight inset-separator link>
-      <template v-for="(turno, i) in turnos">
+      <template v-for="(turno, i) in filteredItems">
         <q-item :key="i">
           <q-item-side>
-            <q-icon name="account_circle" size="2rem" :color="getColor()"/>
+            <q-icon name="account_circle" size="2rem"/>
           </q-item-side>
           <q-item-main>
             <q-item-tile label>{{turno.name}}</q-item-tile>
@@ -47,12 +49,15 @@
 
 <script>
 import db from '@/datasource.js'
-import {QToolbar, Dialog, QIcon, QList, QItem, QItemSeparator, QItemSide, QItemMain, QItemTile, QPopover, QRating, QInnerLoading, QSpinnerDots} from 'quasar'
+import { mapState } from 'vuex'
+
+import {QSlideTransition, QToolbar, QSearch, Dialog, QIcon, QList, QItem, QItemSeparator, QItemSide, QItemMain, QItemTile, QPopover, QRating, QInnerLoading, QSpinnerDots} from 'quasar'
 export default {
-  components: {QToolbar, QIcon, QList, QItem, QItemSeparator, QItemSide, QItemMain, QItemTile, QPopover, QRating, QInnerLoading, QSpinnerDots},
+  components: {QSlideTransition, QToolbar, QSearch, QIcon, QList, QItem, QItemSeparator, QItemSide, QItemMain, QItemTile, QPopover, QRating, QInnerLoading, QSpinnerDots},
   data () {
     return {
       colores: ['red', 'pink', 'purple', 'deep-purple', 'indigo', 'blue', 'light-blue', 'cyan', 'teal', 'green', 'light-green', 'lime', 'amber', 'orange', 'deep-orange', 'brown', 'grey', 'blue-grey'],
+      filter: '',
       dialogConfirm: {
         label: 'Confirmar turno',
         handler () {
@@ -74,6 +79,15 @@ export default {
   },
   firebase: {
     turnos: db.ref('turnos')
+  },
+  computed: {
+    ...mapState(['filterList']),
+    filteredItems () {
+      // return this.turnos
+      return this.turnos.filter(item => {
+        return item.name.toLowerCase().indexOf(this.filter.toLowerCase()) > -1
+      })
+    }
   },
   methods: {
     getColor: function () {
