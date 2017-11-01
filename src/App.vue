@@ -16,26 +16,25 @@
         {{ title }}
         <!-- <div slot="subtitle">Running on Quasar v{{$q.version}}</div> -->
       </q-toolbar-title>
-      <!-- <q-btn flat>
-        <q-icon name="search" />
-      </q-btn> -->
-       <q-btn ref="target" flat>
-        <q-icon name="more_vert" />
-          <q-popover ref="popover_header" anchor="bottom right" self="top right">
-    <!--
-      The DOM element(s) that make up the popup,
-      in this case a list:
-    -->
-    <q-list item-separator link>
-      <q-item @click="$refs.popover_header.close()">
-        Contactanos
-      </q-item>
-      <q-item @click="$refs.popover_header.close()">
-        Acerca de...
-      </q-item>
-    </q-list>
-  </q-popover>
+      <q-btn flat>
+        <q-icon name="tune" />
       </q-btn>
+      <q-btn flat>
+        <q-icon name="search" />
+      </q-btn>
+       <!-- <q-btn ref="target" flat>
+        <q-icon name="more_vert" />
+        <q-popover ref="popover_header" anchor="bottom right" self="top right">
+          <q-list item-separator link>
+            <q-item @click="$refs.popover_header.close()">
+              Contactanos
+            </q-item>
+            <q-item @click="$refs.popover_header.close()">
+              Acerca de...
+            </q-item>
+          </q-list>
+        </q-popover>
+      </q-btn> -->
     </q-toolbar>
 
     <!-- <q-tabs slot="navigation" color="pink">
@@ -51,11 +50,17 @@
         instead of <q-item> for
         internal vue-router navigation
       -->
-      <div id="user-panel">
-        {{ user }}
+      <div id="user-panel" class="row items-center">
+        <div class="col-3 text-center">
+          <img class="avatar" :src="'http://www.gravatar.com/avatar/' + emailhash" alt="">
+        </div>
+        <div class="col-8">
+          <div>{{ user.email }}</div>
+          <div><small>Cerrar sesión</small></div>
+        </div>
       </div>
       <q-list no-border link inset-delimiter>
-        <!-- <q-list-header>Menú</q-list-header> -->
+        <q-list-header>Menú</q-list-header>
         <q-item @click="launch('http://quasar-framework.org')">
           <q-item-side :icon="$q.theme === 'mat' ? 'settings' : 'ion-ios-gear-outline'" />
           <q-item-main label="Docs" sublabel="quasar-framework.org" />
@@ -81,6 +86,7 @@
 
 <script>
 import { mapState } from 'vuex'
+import md5 from 'md5'
 
 import {
   openURL,
@@ -137,6 +143,9 @@ export default {
     ...mapState(['title', 'userLogged', 'user']),
     userLogged () {
       return this.$store.state.userLogged
+    },
+    emailhash () {
+      return md5(this.user.email)
     }
   },
   methods: {
@@ -158,5 +167,10 @@ export default {
     min-height: 80px;
     padding: 3px;
     border-bottom: #e91e63 solid 2px;
+  }
+
+  #email {
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
 </style>

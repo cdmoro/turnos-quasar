@@ -75,11 +75,11 @@ export default {
   },
   methods: {
       login: function() {
-          var self = this
+        var self = this
         firebase.auth().signInWithEmailAndPassword(this.user.mail, this.user.pass).then(
             function(user) {
-                this.$store.dispatch('login')
-                this.$router.push('/home')
+                self.$store.dispatch('login')
+                self.$router.push('/home')
             },
             function(error) {
                 self.loginError = error

@@ -1,5 +1,6 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
+import firebase from 'firebase'
 
 Vue.use(Vuex)
 
@@ -13,17 +14,12 @@ const store = new Vuex.Store({
     actions: {
         login(context) {
             context.commit('login')
-        },
-        userData(context) {
-            context.commit('userData')
         }
     },
 
     mutations: {
         login(state) {
             state.userLogged = true
-        },
-        userData(state) {
             state.user = firebase.auth().currentUser
         }
     },

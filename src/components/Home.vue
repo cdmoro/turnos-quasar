@@ -1,5 +1,8 @@
 <template>
   <section>
+    <q-toolbar slot="header" color="pink" style="position: sticky; top: 0px; z-index: 200">
+      sdfdf
+    </q-toolbar>
     <q-list highlight inset-separator link>
       <template v-for="(turno, i) in turnos">
         <q-item :key="i">
@@ -44,9 +47,9 @@
 
 <script>
 import db from '@/datasource.js'
-import {Dialog, QIcon, QList, QItem, QItemSeparator, QItemSide, QItemMain, QItemTile, QPopover, QRating, QInnerLoading, QSpinnerDots} from 'quasar'
+import {QToolbar, Dialog, QIcon, QList, QItem, QItemSeparator, QItemSide, QItemMain, QItemTile, QPopover, QRating, QInnerLoading, QSpinnerDots} from 'quasar'
 export default {
-  components: {QIcon, QList, QItem, QItemSeparator, QItemSide, QItemMain, QItemTile, QPopover, QRating, QInnerLoading, QSpinnerDots},
+  components: {QToolbar, QIcon, QList, QItem, QItemSeparator, QItemSide, QItemMain, QItemTile, QPopover, QRating, QInnerLoading, QSpinnerDots},
   data () {
     return {
       colores: ['red', 'pink', 'purple', 'deep-purple', 'indigo', 'blue', 'light-blue', 'cyan', 'teal', 'green', 'light-green', 'lime', 'amber', 'orange', 'deep-orange', 'brown', 'grey', 'blue-grey'],
