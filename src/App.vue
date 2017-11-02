@@ -3,7 +3,6 @@
     ref="layout"
     view="lHh Lpr fFf"
     :left-class="{'bg-grey-2': true}"
-    :reveal="true"
     :page-class="{'row justify-center items-center bg-pink-4': !userLogged}">
     <q-toolbar slot="header" color="pink" v-if="userLogged">
       <q-btn
@@ -52,11 +51,12 @@
       -->
       <div id="user-panel" class="row items-center">
         <div class="col-3 text-center">
-          <img class="avatar" :src="'http://www.gravatar.com/avatar/' + emailhash" alt="">
+          <!-- <img class="avatar" :src="'http://www.gravatar.com/avatar/' + emailhash + '?d=wavatar'" alt=""> -->
+          <img class="avatar" :src="user.photoURL" alt="">
         </div>
         <div class="col-8">
-          <div>{{ user.email }}</div>
-          <div><small>Cerrar sesión</small></div>
+          <div>{{ user.displayName ? user.displayName : user.email }}</div>
+          <div @click="logout"><small>Cerrar sesión</small></div>
         </div>
       </div>
       <q-list no-border link inset-delimiter>
@@ -86,6 +86,7 @@
 
 <script>
 import { mapState } from 'vuex'
+import firebase from 'firebase'
 import md5 from 'md5'
 
 import {
@@ -112,7 +113,7 @@ import {
 AddressbarColor.set('#AC1649')
 
 export default {
-  name: 'index',
+  name: 'TuLook',
   components: {
     QLayout,
     QTabs,
@@ -141,9 +142,6 @@ export default {
   },
   computed: {
     ...mapState(['title', 'userLogged', 'user']),
-    userLogged () {
-      return this.$store.state.userLogged
-    },
     emailhash () {
       return md5(this.user.email)
     }
@@ -154,6 +152,11 @@ export default {
     },
     toggleFilterList () {
       this.$store.dispatch('toggleFilterList')
+    },
+    logout () {
+      firebase.auth().singOut().then(() => {
+        this.$router.push('/login')
+      })
     }
   }
 }

@@ -1,7 +1,7 @@
 <template>
   <section>
     <q-slide-transition>
-      <q-toolbar slot="header" color="pink" style="position: sticky; top: 0; z-index: 200" v-show="filterList">
+      <q-toolbar color="pink" style="min-height: auto; position: sticky; top: 44px; z-index: 200" v-show="filterList">
         <q-search placeholder="Buscar..." inverted color="pink" flat v-model="filter" style="box-shadow: none"/>
       </q-toolbar>
     </q-slide-transition>
@@ -53,6 +53,7 @@ import { mapState } from 'vuex'
 
 import {QSlideTransition, QToolbar, QSearch, Dialog, QIcon, QList, QItem, QItemSeparator, QItemSide, QItemMain, QItemTile, QPopover, QRating, QInnerLoading, QSpinnerDots} from 'quasar'
 export default {
+  name: 'Home',
   components: {QSlideTransition, QToolbar, QSearch, QIcon, QList, QItem, QItemSeparator, QItemSide, QItemMain, QItemTile, QPopover, QRating, QInnerLoading, QSpinnerDots},
   data () {
     return {

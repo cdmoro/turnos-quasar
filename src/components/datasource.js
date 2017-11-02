@@ -13,4 +13,6 @@ let config = {
 let firebaseApp = firebase.initializeApp(config)
 let db = firebaseApp.database()
 
+firebase.auth().languageCode = 'es'
+
 export default db

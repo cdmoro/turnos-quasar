@@ -16,7 +16,9 @@
                     <p>
                         {{loginError.message}}
                     </p>
-                    <q-btn color="purple" class="full-width" @click="login()">Ingresá</q-btn>
+                    <q-btn color="purple" class="full-width" @click="login">
+                        Ingresá
+                    </q-btn>
                     <p class="text-right">
                         <router-link to="/singup"><small>No tengo cuenta, quiero registarme</small></router-link>
                     </p>
@@ -27,7 +29,7 @@
                     <p class="text-white">Si no querés registrarte podés acceder con los siguientes servicios</p>
                     <div class="row sm-gutter">
                         <div class="col">
-                            <q-btn icon="fa-google" color="red" class="full-width">Google</q-btn>
+                            <q-btn icon="fa-google" color="red" class="full-width" @click="loginGoogle">Google</q-btn>
                         </div>
                         <div class="col">
                             <q-btn icon="fa-facebook-official" color="primary" class="full-width">Facebook</q-btn>
@@ -74,18 +76,48 @@ export default {
     }
   },
   methods: {
-      login: function() {
+    login: function() {
         var self = this
         firebase.auth().signInWithEmailAndPassword(this.user.mail, this.user.pass).then(
-            function(user) {
-                self.$store.dispatch('login')
-                self.$router.push('/home')
-            },
-            function(error) {
-                self.loginError = error
-            }
-        )
-      }
+        function(user) {
+            self.$store.dispatch('login')
+            self.$router.push('/home')
+        },
+        function(error) {
+            self.loginError = error
+        }
+    )
+    },
+    loginGoogle: function() {
+        var self = this
+        var provider = new firebase.auth.GoogleAuthProvider()
+
+        firebase.auth().getRedirectResult().then(
+        function(result) {
+            if (result.credential) var token = result.credential.accessToken
+
+            self.$store.dispatch('login')
+            self.$router.push('/home')
+
+        }).catch(function(error) {
+            self.loginError = error
+        });
+    },
+    loginFacebook: function() {
+        var self = this
+        var provider = new firebase.auth.FacebookAuthProvider()
+
+        firebase.auth().getRedirectResult().then(
+        function(result) {
+            if (result.credential) var token = result.credential.accessToken
+
+            self.$store.dispatch('login')
+            self.$router.push('/home')
+
+        }).catch(function(error) {
+            self.loginError = error
+        });
+    }
   },
   computed: {
       ...mapState(['title']),

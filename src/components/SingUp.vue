@@ -7,6 +7,9 @@
                 </q-card-title>
                 <q-card-main>
                     <p>Para crear una cuenta es necesario que ingreses tu usuario y tu mail</p>
+                    <q-field icon="account">
+                        <q-input placeholder="Nombre" type="text" v-model="user.name" />
+                    </q-field>
                     <q-field icon="email">
                         <q-input placeholder="Mail" type="email" v-model="user.mail" />
                     </q-field>
@@ -28,6 +31,7 @@
 <script>
 import { mapState } from 'vuex'
 import firebase from 'firebase'
+import md5 from 'md5'
 
 /* eslint-disable */
 import {
@@ -40,7 +44,7 @@ import {
   QBtn
 } from "quasar"
 export default {
-  name: "Login",
+  name: "Singup",
   components: {
     QCard,
     QCardTitle,
@@ -53,6 +57,7 @@ export default {
   data() {
     return {
       user: {
+        name: "",
         mail: "",
         pass: ""
       },
@@ -62,17 +67,26 @@ export default {
   },
   methods: {
       createAccount: function() {
-          var self = this
           firebase.auth().createUserWithEmailAndPassword(this.user.mail, this.user.pass).then(
-              function (user) {
-                self.userResponse = user
+              (user) => {
+                var self = this
+                user.updateProfile({
+                    displayName: self.user.name,
+                    photoURL: "http://www.gravatar.com/avatar/" + md5(self.user.mail) + "?d=wavatar"
+                }).then(function() {
+                    
+                }, function(error) {
+                    self.errorResponse = error
+                });
+
+                this.userResponse = user
+                this.$store.dispatch('login')
+                this.$router.push("/home")
               },
-              function (error) {
-                self.errorResponse = error
+              (error) => {
+                this.errorResponse = error
               }
           )
-        //   this.$router.push('/home')
-        //   this.$store.dispatch('login')
       }
   },
   computed: {
