@@ -65,14 +65,7 @@ export default {
           Dialog.create({
             title: 'Confirmar turno',
             message: 'El horario más próximo es a las 18 horas',
-            buttons: [
-              {
-                label: 'Cancelar'
-              },
-              {
-                label: 'Reservar'
-              }
-            ]
+            buttons: [ { label: 'Cancelar' }, { label: 'Reservar' } ]
           })
         }
       }
